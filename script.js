@@ -57,126 +57,165 @@ const booksOfBible = [
     chapters: [
       {
         number: 1,
-        verses: [
-            "asdfasdf",
-            "asdfasdf",
-        ]
+        verses: ["asdfasdf", "asdfasdf"],
       },
       {
         number: 2,
-        verses: [
-            "asdaf",
-            "adfdsaf",
-        ]
-      }
+        verses: ["asdaf", "adfdsaf"],
+      },
     ],
-    },
+  },
 ];
-document.addEventListener("DOMContentLoaded", function(){ //Ensures that the JavaScript executes only after the DOM content is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+    practiceVerseBtn = document.getElementById("practice-verse-btn");
 
+  //Creates the drop down for each book
+  booksOfBible.forEach(function (book) {
+    const option = document.createElement("option");
+    option.textContent = book.name;
+    option.value = book.name;
+    bookSelect.appendChild(option);
+  });
 
-//Creates the drop down for each book
-booksOfBible.forEach(function (book) {
-  const option = document.createElement("option");
-  option.textContent = book.name;
-  option.value = book.name;
-  bookSelect.appendChild(option);
-});
+  // Add event listener to the "Show Verse" button
+  showVerseBtn.addEventListener("click", function () {
+    event.preventDefault();
+    const bookName = bookSelect.value;
+    const chapter = chapterInput.value.trim();
+    const verse = verseInput.value.trim();
 
-// Add event listener to the "Show Verse" button
-showVerseBtn.addEventListener("click", function () {
-  event.preventDefault();
-  const bookName = bookSelect.value;
-  const chapter = chapterInput.value.trim();
-  const verse = verseInput.value.trim();
+    // Call the isValidChapterVerse function to validate chapter and verse
+    const isValid = isValidChapterVerse(bookName, chapter, verse); //??
+    const selectedBook = booksOfBible.find((book) => book.name === bookName);
+    const isValidChapter =
+      selectedBook &&
+      selectedBook.chapters.some((chap) => chap.number === parseInt(chapter));
 
+    // If the selected book is found
+    if (selectedBook) {
+      //Check if the selected chapter exists in the book
+      if (!isValidChapter) {
+        console.log("Invalid Chapter.");
+        const numChapters = selectedBook.chapters.length;
+        alert(
+          `Please enter a valid chapter number. \n\n${selectedBook.name} has ${numChapters} chapters.`
+        );
+        return; // Exit the function early
+      }
 
+      // Find the selected chapter in the chapters array of the selected book
+      const selectedChapter = selectedBook.chapters.find(
+        (chap) => chap.number === parseInt(chapter)
+      );
+      const numVersesInChapter = selectedChapter.verses.length;
+
+      // If the selected verse is valid, proceed to show the verse
+      if (parseInt(verse) >= 1 && parseInt(verse) <= numVersesInChapter) {
+        console.log("Chapter and verse are valid.");
+        showVerse(bookName, chapter, verse);
+
+        //Enable practice verse button
+        practiceVerseBtn.disabled = false;
+    } else {
+        console.log("Invalid verse.");
+        alert(
+          `Please enter a valid verse number.\n\nVerse: ${verse} does not exist in ${selectedBook.name} ${chapter}.\n\n${selectedBook.name} ${chapter} has ${numVersesInChapter} verses.`
+        );
+      }
+    } else {
+        console.log("Selected book not found.");
+        alert("Please select a valid book from the dropdown.");
+    }
+    });
+
+    //Add event listenter to the practice button
+    practiceVerseBtn.addEventListener("click", function(){
+        //check if verse is selected
+        const verseText = document.getElementById("verse-display").textContent.trim();
+        if (!verseText){
+            alert ("Please select a verse first.");
+            return;
+        }
+
+        //Implement practice verse functionality here
+        console.log("Practice verse button clicked.");
+        //     //practive verse functionality here
+        //     console.log("Practice verse button clicked.");
+        // });
+
+      });
 
  
 
-//   // Validate chapter input
-//   if (!pattern.test(chapter)) {
-//     alert("Please enter a valid chapter number.");
-//     return;
-//   }
+  function isValidChapterVerse(bookName, chapter, verse) {
+    // Find the selected book from the booksOfBible array
+    const selectedBook = booksOfBible.find((book) => book.name === bookName);
 
-//   // Validate verse input
-//   if (!pattern.test(verse)) {
-//     alert("Please enter a valid verse number.");
-//     return;
-//   }
-
-//   if(isValidChapterVerse(bookName, chapter, verse)){
-//     console.log("Chapter and verse are valid.");
-//   } else {
-//     console.log("Chapter and verse are invalid.");
-//     form.reset();
-//   }
-  // If inputs are valid, proceed to show the verse (implement this logic)
-//   showVerse(bookName, chapter, verse);
-
- // Call the isValidChapterVerse function to validate chapter and verse
- const isValid = isValidChapterVerse(bookName, chapter, verse);
-
- // If inputs are valid, proceed to show the verse
- if (isValid) {
-     console.log("Chapter and verse are valid.");
-     showVerse(bookName, chapter, verse);
- } else {
-     console.log("Chapter and verse are invalid.");
-     alert("Please enter a valid chapter and verse number.");
- }
-
-
-});
-
-function isValidChapterVerse(bookName, chapter, verse){
-       // Find the selected book from the booksOfBible array
-       const selectedBook = booksOfBible.find(book => book.name === bookName);
-
-        // Regular expression pattern for positive integers greater than zero
-        const pattern = /^[1-9][0-9]*$/;
-
+    // Regular expression pattern for positive integers greater than zero
+    const pattern = /^[1-9][0-9]*$/;
 
     if (selectedBook && pattern.test(chapter) && pattern.test(verse)) {
-        // Find the selected chapter in the chapters array of the selected book
-        const selectedChapter = selectedBook.chapters.find(chap => chap.number === parseInt(chapter));
-        
-        // If the selected chapter is found
-        if (selectedChapter) {
-            // Check if the selected verse exists in the selected chapter
-            if (parseInt(verse) >= 1 && parseInt(verse) <= selectedChapter.verses.length) {
-                return true; // Chapter and verse exist
-            }
+      // Find the selected chapter in the chapters array of the selected book
+      const selectedChapter = selectedBook.chapters.find(
+        (chap) => chap.number === parseInt(chapter)
+      );
+
+      // If the selected chapter is found
+      if (selectedChapter) {
+        // Check if the selected verse exists in the selected chapter
+        if (
+          parseInt(verse) >= 1 &&
+          parseInt(verse) <= selectedChapter.verses.length
+        ) {
+          return true; // Chapter and verse exist
         }
+      }
     }
     return false; // Chapter or verse does not exist or inputs are not valid numbers
-   }
+  }
 
+  // Function to show the selected verse
+  function showVerse(bookName, chapter, verse) {
+    // Implement logic to display the selected verse based on chapter and verse numbers
+    // You can fetch the verse from your data structure (e.g., array of Psalms)
+    // and display it in the "verse-display" section
+    const verseDisplay = document.getElementById("verse-display");
 
-// Function to show the selected verse
-function showVerse(bookName, chapter, verse) {
-  // Implement logic to display the selected verse based on chapter and verse numbers
-  // You can fetch the verse from your data structure (e.g., array of Psalms)
-  // and display it in the "verse-display" section
-  const verseDisplay = document.getElementById("verse-display");
-
-  // Find the selected book from the booksOfBible array
-  const selectedBook = booksOfBible.find(book => book.name === bookName);
+    // Find the selected book from the booksOfBible array
+    const selectedBook = booksOfBible.find((book) => book.name === bookName);
     console.log(selectedBook);
-  // Find the selected chapter in the chapters array of the selected book
-  const selectedChapter = selectedBook.chapters.find(chap => chap.number === parseInt(chapter));
+    // Find the selected chapter in the chapters array of the selected book
+    const selectedChapter = selectedBook.chapters.find(
+      (chap) => chap.number === parseInt(chapter)
+    );
     console.log(selectedChapter);
-  // Get the verse text
-  const verseText = selectedChapter.verses[parseInt(verse) - 1];
+    // Get the verse text
+    const verseText = selectedChapter.verses[parseInt(verse) - 1];
     console.log(verseText);
-  // Display the verse in the verse-display section
-  verseDisplay.textContent = `${selectedBook.name} ${chapter}:${verse} - ${verseText}`;
-  // For now, you can just log the chapter and verse numbers to the console
-  console.log("Chapter:", chapter.textContent);
-  console.log("Verse:", verse.textContent);
-}
+    // Display the verse in the verse-display section
+    verseDisplay.textContent = `${selectedBook.name} ${chapter}:${verse} - ${verseText}`;
+    // For now, you can just log the chapter and verse numbers to the console
+  }
 
 
+// Function to scrambles the words of the verse and display them in boxes.
+function scrambleAndDisplayVerse(verseText) {
+    const verseWords = verseText.split(" "); // Split verse into words
+    verseWords.sort(() => Math.random() - 0.5); // Shuffle words
 
-});
+    const verseDisplayTable = document.getElementById("verse-display-table");
+    verseDisplayTable.innerHTML = ""; // Clear existing content
+
+    const table = document.createElement("table");
+
+    verseWords.forEach(function (word) {
+      const cell = document.createElement("td");
+      cell.textContent = word;
+      cell.classList.add("word-box");
+      const row = document.createElement("tr");
+      row.appendChild(cell);
+      table.appendChild(row);
+    });
+  }
+
+});//Closes out the script
