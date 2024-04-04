@@ -1,0 +1,57 @@
+body {
+    background-color: #f4f4f4; /* Light gray background color */
+    font-family: Arial, sans-serif; /* Change font to Arial or fallback to sans-serif */
+}
+
+header {
+    background-color: #333; /* Dark gray background color for header */
+    color: #fff; /* White text color for header */
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px; /* Limit content width for better readability */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff; /* Blue button color */
+    color: #fff; /* White text color for button */
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
+
+#verse-display {
+    border: 1px solid #ccc; /* Gray border around verse display */
+    padding: 10px;
+    min-height: 100px; /* Minimum height for verse display section */
+    background-color: #fff; /* White background color */
+    font-size: 16px; /* Font size for verse display */
+    line-height: 1.5; /* Line height for better readability */
+}

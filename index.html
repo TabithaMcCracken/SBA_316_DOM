@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bible Verse Memorization App</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Bible Verse Memorization App</h1>
+    </header>
+    <main>
+      <form id="verse-form">
+        <section id="bible-verse-selection">
+          <h2>Select a Book of the Bible</h2>
+          <label for="book-select">Book:</label>
+          <select id="book-select">
+            <!-- Options for book selection will be added dynamically using JavaScript -->
+          </select>
+          <label for="chapter-input">Chapter:</label>
+          <input type="text" id="chapter-input" maxlength="3" required />
+          <label for="verse-input">Verse:</label>
+          <input type="text" id="verse-input" maxlength="3" required />
+          <button id="show-verse-btn">Show Verse</button>
+        </section>
+        <section id="verse-display">
+          <!-- The selected Bible verse will be displayed here -->
+        </section>
+      </form>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
