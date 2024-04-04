@@ -2,7 +2,8 @@ const bookSelect = document.getElementById("book-select");
 const chapterInput = document.getElementById("chapter-input");
 const verseInput = document.getElementById("verse-input");
 const showVerseBtn = document.getElementById("show-verse-btn");
-const form = document.getElementById("verse-form");
+//const form = document.getElementById("verse-form");
+const practiceVerseBtn = document.getElementById("practice-verse-btn");
 
 const booksOfBible = [
   {
@@ -57,17 +58,33 @@ const booksOfBible = [
     chapters: [
       {
         number: 1,
-        verses: ["asdfasdf", "asdfasdf"],
+        verses: [
+            "The proverbs of Solomon, son of David, king of Israel:", 
+            "To know wisdom and instruction, to understand words of insight,",
+            "to receive instruction in wise dealing, in righteousness, justice, and equity;",
+            "to give prudence to the simple, knowledge and discretion to the youth--",
+            "Let the wise hear and increase in learning, and the one who understands obtain guidance,",
+            "to understand a proverb and a saying, the words of the wise and their riddles.",
+            "The fear of the LORD is the beginning of knowledge; fools despise wisdom and instruction.",
+        ],
       },
       {
         number: 2,
-        verses: ["asdaf", "adfdsaf"],
+        verses: [
+            "My son, if you receive my words and treasure up my commandments with you,", 
+            "making your ear attentive to wisdom and inclining your heart to understanding;",
+            "yes, if you call out for insight and raise your voice for understanding,",
+            "if you seek it like silver and search for it as for hidden treasures,",
+            "then you will understand the fear of the LORD and find the knowledge of God.",
+            "For the LORD gives wisdom; from his mouth come knowledge and understanding;",
+            "he stores up sound wisdom for the upright; he is a shield to those who walk in integrity,",
+            "guarding the paths of justice and watching over the way of his saints."],
       },
     ],
   },
 ];
 document.addEventListener("DOMContentLoaded", function () {
-    practiceVerseBtn = document.getElementById("practice-verse-btn");
+    
 
   //Creates the drop down for each book
   booksOfBible.forEach(function (book) {
@@ -130,18 +147,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Add event listenter to the practice button
     practiceVerseBtn.addEventListener("click", function(){
-        //check if verse is selected
-        const verseText = document.getElementById("verse-display").textContent.trim();
+        event.preventDefault();
+        console.log("The practice verse button was clicked.")
+
+        const verseDisplay = document.getElementById("verse-display");
+        const verseText = verseDisplay.textContent;
+        forEach (verseText){
+            console.log(word);
+        }
+
+        // This is pointless because the button is disabled until a verse is selected, so this will never occur.
         if (!verseText){
             alert ("Please select a verse first.");
             return;
         }
-
-        //Implement practice verse functionality here
-        console.log("Practice verse button clicked.");
-        //     //practive verse functionality here
-        //     console.log("Practice verse button clicked.");
-        // });
+        scrambleAndDisplayVerse(verseText);
 
       });
 
@@ -193,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const verseText = selectedChapter.verses[parseInt(verse) - 1];
     console.log(verseText);
     // Display the verse in the verse-display section
-    verseDisplay.textContent = `${selectedBook.name} ${chapter}:${verse} - ${verseText}`;
+    verseDisplay.textContent = `${selectedBook.name} ${chapter}:${verse} ${verseText}`;
     // For now, you can just log the chapter and verse numbers to the console
   }
 
@@ -209,9 +229,10 @@ function scrambleAndDisplayVerse(verseText) {
     const table = document.createElement("table");
 
     verseWords.forEach(function (word) {
+        console.log(word);
       const cell = document.createElement("td");
       cell.textContent = word;
-      cell.classList.add("word-box");
+      cell.classList.add("word-cell");
       const row = document.createElement("tr");
       row.appendChild(cell);
       table.appendChild(row);
