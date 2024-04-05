@@ -1,13 +1,13 @@
 body {
-    /*background-color: #f1edee; /* Light gray background color */
     background-image: url(pexels-scott-webb-2824173.jpg);
-    font-family: "Verdana", "Courier New", monospace; /* Change font to Arial or fallback to sans-serif */
+    font-family: "CopperPlate"; 
+    font-weight: bold;
 }
 
 header {
-    background-color: #931621; /* Dark gray background color for header */
+    background-color: #cf2b39; /* Dark gray background color for header */
     color: #fff; /* White text color for header */
-    font-family: "Verdana", "Courier New", monospace;
+    /*font-family: "Verdana", "Courier New", monospace;*/
     text-align: center;
     padding: 20px 0;
 }
@@ -17,7 +17,7 @@ header h1 {
 }
 
 main {
-    max-width: 800px; /* Limit content width for better readability */
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -36,26 +36,31 @@ input, select, button {
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    font-family: "Copperplate";
+    font-weight: bold;
 }
 
 button {
-    background-color: #3d5467; /* Blue button color */
+    background-color: #3d5467; /* Dark Blue button color */
     color: #fff; /* White text color for button */
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #8aa29e; /* Darker blue color on hover */
+    background-color: #8aa29e; /* color on hover */
 }
 
 #verse-display, #ordered-words-section {
     border: 1px solid #ccc; /* Gray border around verse display */
     padding: 10px;
-    min-height: 100px; /* Minimum height for verse display section */
+    min-height: 100px;
     background-color: #fff; /* White background color */
     font-size: 16px; /* Font size for verse display */
     line-height: 1.5; /* Line height for better readability */
+}
+#chapter-input, #verse-input, #book-select {
+    border: 1px solid #ccc;
 }
 
 /* Style for the verse table */
@@ -70,6 +75,7 @@ button:hover {
     padding: 5px;
     word-wrap: break-word; /* Wrap words within cells */
     flex: 1;
-    max-width: 100px; /* Adjust the max-width as needed */
+    max-width: 100px;
     box-sizing: border-box;
+    background-color: #cf2b39;
 }

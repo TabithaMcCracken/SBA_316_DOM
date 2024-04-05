@@ -261,6 +261,7 @@ document.addEventListener("DOMContentLoaded", function () { //executes only afte
       const cell = document.createElement("td");
       cell.textContent = word;
       cell.classList.add("word-cell");
+      // cell.style.backgroundColor = "#cf2b39";
 
       cell.addEventListener("click", function () {
         // Remove the clicked word from the table
