@@ -6,8 +6,7 @@ const practiceVerseBtn = document.getElementById("practice-verse-btn");
 const checkVerseBtn = document.getElementById("check-verse-btn");
 let originalVerseText = "";
 // Add a flag to prevent multiple event listeners on the "Check Verse" button
-// I'm sure there is a better way to do this, but I can't figure it out without refactoring everything :-)
-let checkVerseBtnListenerAdded = false;
+let checkVerseBtnListenerAdded = false; // I'm sure there is a better way to do this, but I can't figure it out without refactoring everything :-)
 
 const booksOfBible = [
   {
@@ -88,7 +87,7 @@ const booksOfBible = [
     ],
   },
 ];
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { //executes only after the DOM has completely loaded
   //Creates the drop down for each book
   booksOfBible.forEach(function (book) {
     const option = document.createElement("option");
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
   showVerseBtn.addEventListener("click", function () {
     event.preventDefault();
     const bookName = bookSelect.value;
-    const chapter = chapterInput.value.trim();
+    const chapter = chapterInput.value.trim(); // Removes any white space at the beginning and end of the string
     const verse = verseInput.value.trim();
 
     // Call the isValidChapterVerse function to validate chapter and verse
@@ -154,16 +153,14 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     console.log("The practice verse button was clicked.");
 
-    const orderedWordsSection = document.getElementById(
-      "ordered-words-section"
-    );
-    orderedWordsSection.textContent = "";
+    const orderedWordsSection = document.getElementById("ordered-words-section");
+    orderedWordsSection.textContent = ""; //Reset the word sectino
 
     // Reset button background colors
     this.style.backgroundColor = "";
     checkVerseBtn.style.backgroundColor = "";
 
-    // Get the verse content from the selected chapter's verses array
+    // Get the book, chapter and verse content
     const bookName = bookSelect.value;
     const chapter = chapterInput.value.trim();
     const verse = verseInput.value.trim();
@@ -187,14 +184,16 @@ document.addEventListener("DOMContentLoaded", function () {
     this.style.backgroundColor = "green";
     scrambleAndDisplayVerse(verseContent);
   });
+
   // Function to check if the chapter and verse exist and are valid
   function isValidChapterVerse(bookName, chapter, verse) {
     // Find the selected book from the booksOfBible array
     const selectedBook = booksOfBible.find((book) => book.name === bookName);
 
-    // Regular expression pattern for positive integers greater than zero
+    // Regex to get positive integers greater than zero
     const pattern = /^[1-9][0-9]*$/;
 
+    // check if there is a selected book, and that it's chapter and verse match the pattern
     if (selectedBook && pattern.test(chapter) && pattern.test(verse)) {
       // Find the selected chapter in the chapters array of the selected book
       const selectedChapter = selectedBook.chapters.find(
@@ -212,14 +211,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     }
-    return false; // Chapter or verse does not exist or inputs are not valid numbers
+    return false; // Chapter or verse don't exist or inputs are not valid
   }
 
   // Function to show the selected verse
   function showVerse(bookName, chapter, verse) {
-    // Implement logic to display the selected verse based on chapter and verse numbers
-    // You can fetch the verse from your data structure (e.g., array of Psalms)
-    // and display it in the "verse-display" section
+
     const verseDisplay = document.getElementById("verse-display");
 
     // Find the selected book from the booksOfBible array
@@ -240,12 +237,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to scrambles the words of the verse and display them in boxes.
   function scrambleAndDisplayVerse(verseText) {
+    // Checkt to make sure that the verseText is a string
     if (typeof verseText !== "string") {
       console.error("Verse text is not a string.");
       console.error("Actual type:", typeof verseText);
       return; // Exit the function
     }
-    originalVerseText = verseText;
+    originalVerseText = verseText; // Make a copy
     const verseWords = verseText.split(" "); // Split verse into words
     verseWords.sort(() => Math.random() - 0.5); // Shuffle words
 
