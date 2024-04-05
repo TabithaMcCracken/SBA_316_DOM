@@ -1,12 +1,13 @@
 body {
-    background-color: #f1edee; /* Light gray background color */
+    /*background-color: #f1edee; /* Light gray background color */
+    background-image: url(pexels-scott-webb-2824173.jpg);
     font-family: "Verdana", "Courier New", monospace; /* Change font to Arial or fallback to sans-serif */
 }
 
 header {
     background-color: #DB5461; /* Dark gray background color for header */
     color: #fff; /* White text color for header */
-    font-family: "Papyrus", "Courier New", monospace;
+    font-family: "Verdana", "Courier New", monospace;
     text-align: center;
     padding: 20px 0;
 }
