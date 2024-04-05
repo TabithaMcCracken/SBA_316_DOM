@@ -47,11 +47,27 @@ button:hover {
     background-color: #0056b3; /* Darker blue color on hover */
 }
 
-#verse-display {
+#verse-display, #ordered-words-section {
     border: 1px solid #ccc; /* Gray border around verse display */
     padding: 10px;
     min-height: 100px; /* Minimum height for verse display section */
     background-color: #fff; /* White background color */
     font-size: 16px; /* Font size for verse display */
     line-height: 1.5; /* Line height for better readability */
+}
+
+/* Style for the verse table */
+.verse-table {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Style for the table cells */
+.word-cell {
+    border: 1px solid #000;
+    padding: 5px;
+    word-wrap: break-word; /* Wrap words within cells */
+    flex: 1;
+    max-width: 100px; /* Adjust the max-width as needed */
+    box-sizing: border-box;
 }

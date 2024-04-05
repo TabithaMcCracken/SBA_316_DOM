@@ -2,8 +2,12 @@ const bookSelect = document.getElementById("book-select");
 const chapterInput = document.getElementById("chapter-input");
 const verseInput = document.getElementById("verse-input");
 const showVerseBtn = document.getElementById("show-verse-btn");
-//const form = document.getElementById("verse-form");
 const practiceVerseBtn = document.getElementById("practice-verse-btn");
+const checkVerseBtn = document.getElementById("check-verse-btn");
+let originalVerseText = "";
+// Add a flag to prevent multiple event listeners on the "Check Verse" button
+// I'm sure there is a better way to do this, but I can't figure it out without refactoring everything :-)
+let checkVerseBtnListenerAdded = false;
 
 const booksOfBible = [
   {
@@ -59,33 +63,32 @@ const booksOfBible = [
       {
         number: 1,
         verses: [
-            "The proverbs of Solomon, son of David, king of Israel:", 
-            "To know wisdom and instruction, to understand words of insight,",
-            "to receive instruction in wise dealing, in righteousness, justice, and equity;",
-            "to give prudence to the simple, knowledge and discretion to the youth--",
-            "Let the wise hear and increase in learning, and the one who understands obtain guidance,",
-            "to understand a proverb and a saying, the words of the wise and their riddles.",
-            "The fear of the LORD is the beginning of knowledge; fools despise wisdom and instruction.",
+          "The proverbs of Solomon, son of David, king of Israel:",
+          "To know wisdom and instruction, to understand words of insight,",
+          "to receive instruction in wise dealing, in righteousness, justice, and equity;",
+          "to give prudence to the simple, knowledge and discretion to the youth--",
+          "Let the wise hear and increase in learning, and the one who understands obtain guidance,",
+          "to understand a proverb and a saying, the words of the wise and their riddles.",
+          "The fear of the LORD is the beginning of knowledge; fools despise wisdom and instruction.",
         ],
       },
       {
         number: 2,
         verses: [
-            "My son, if you receive my words and treasure up my commandments with you,", 
-            "making your ear attentive to wisdom and inclining your heart to understanding;",
-            "yes, if you call out for insight and raise your voice for understanding,",
-            "if you seek it like silver and search for it as for hidden treasures,",
-            "then you will understand the fear of the LORD and find the knowledge of God.",
-            "For the LORD gives wisdom; from his mouth come knowledge and understanding;",
-            "he stores up sound wisdom for the upright; he is a shield to those who walk in integrity,",
-            "guarding the paths of justice and watching over the way of his saints."],
+          "My son, if you receive my words and treasure up my commandments with you,",
+          "making your ear attentive to wisdom and inclining your heart to understanding;",
+          "yes, if you call out for insight and raise your voice for understanding,",
+          "if you seek it like silver and search for it as for hidden treasures,",
+          "then you will understand the fear of the LORD and find the knowledge of God.",
+          "For the LORD gives wisdom; from his mouth come knowledge and understanding;",
+          "he stores up sound wisdom for the upright; he is a shield to those who walk in integrity,",
+          "guarding the paths of justice and watching over the way of his saints.",
+        ],
       },
     ],
   },
 ];
 document.addEventListener("DOMContentLoaded", function () {
-    
-
   //Creates the drop down for each book
   booksOfBible.forEach(function (book) {
     const option = document.createElement("option");
@@ -133,40 +136,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
         //Enable practice verse button
         practiceVerseBtn.disabled = false;
-    } else {
+      } else {
         console.log("Invalid verse.");
         alert(
           `Please enter a valid verse number.\n\nVerse: ${verse} does not exist in ${selectedBook.name} ${chapter}.\n\n${selectedBook.name} ${chapter} has ${numVersesInChapter} verses.`
         );
       }
     } else {
-        console.log("Selected book not found.");
-        alert("Please select a valid book from the dropdown.");
+      console.log("Selected book not found.");
+      alert("Please select a valid book from the dropdown.");
     }
-    });
+    this.style.backgroundColor = "green";
+  });
 
-    //Add event listenter to the practice button
-    practiceVerseBtn.addEventListener("click", function(){
-        event.preventDefault();
-        console.log("The practice verse button was clicked.")
+  //Add event listenter to the practice button
+  practiceVerseBtn.addEventListener("click", function () {
+    event.preventDefault();
+    console.log("The practice verse button was clicked.");
 
-        const verseDisplay = document.getElementById("verse-display");
-        const verseText = verseDisplay.textContent;
-        forEach (verseText){
-            console.log(word);
-        }
+    const orderedWordsSection = document.getElementById(
+      "ordered-words-section"
+    );
+    orderedWordsSection.textContent = "";
 
-        // This is pointless because the button is disabled until a verse is selected, so this will never occur.
-        if (!verseText){
-            alert ("Please select a verse first.");
-            return;
-        }
-        scrambleAndDisplayVerse(verseText);
+    // Reset button background colors
+    this.style.backgroundColor = "";
+    checkVerseBtn.style.backgroundColor = "";
 
-      });
+    // Get the verse content from the selected chapter's verses array
+    const bookName = bookSelect.value;
+    const chapter = chapterInput.value.trim();
+    const verse = verseInput.value.trim();
 
- 
+    // Find the selected book from the booksOfBible array
+    const selectedBook = booksOfBible.find((book) => book.name === bookName);
 
+    // Find the selected chapter in the chapters array of the selected book
+    const selectedChapter = selectedBook.chapters.find(
+      (chap) => chap.number === parseInt(chapter)
+    );
+
+    // Fetch the verse content directly from the selected chapter's verses array
+    const verseContent = selectedChapter.verses[parseInt(verse) - 1];
+
+    // Check if verse is selected
+    if (!verseContent.trim()) {
+      alert("Please select a verse first.");
+      return;
+    }
+    this.style.backgroundColor = "green";
+    scrambleAndDisplayVerse(verseContent);
+  });
+  // Function to check if the chapter and verse exist and are valid
   function isValidChapterVerse(bookName, chapter, verse) {
     // Find the selected book from the booksOfBible array
     const selectedBook = booksOfBible.find((book) => book.name === bookName);
@@ -214,29 +235,94 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(verseText);
     // Display the verse in the verse-display section
     verseDisplay.textContent = `${selectedBook.name} ${chapter}:${verse} ${verseText}`;
-    // For now, you can just log the chapter and verse numbers to the console
+  
   }
 
-
-// Function to scrambles the words of the verse and display them in boxes.
-function scrambleAndDisplayVerse(verseText) {
+  // Function to scrambles the words of the verse and display them in boxes.
+  function scrambleAndDisplayVerse(verseText) {
+    if (typeof verseText !== "string") {
+      console.error("Verse text is not a string.");
+      console.error("Actual type:", typeof verseText);
+      return; // Exit the function
+    }
+    originalVerseText = verseText;
     const verseWords = verseText.split(" "); // Split verse into words
     verseWords.sort(() => Math.random() - 0.5); // Shuffle words
 
     const verseDisplayTable = document.getElementById("verse-display-table");
     verseDisplayTable.innerHTML = ""; // Clear existing content
 
+    const header = document.createElement("h3");
+    header.textContent = "Click on the words to put them back in order.";
+    verseDisplayTable.appendChild(header); // Append the header to the container
+
     const table = document.createElement("table");
+    table.classList.add("verse-table");
 
     verseWords.forEach(function (word) {
-        console.log(word);
       const cell = document.createElement("td");
       cell.textContent = word;
       cell.classList.add("word-cell");
+
+      cell.addEventListener("click", function () {
+        // Remove the clicked word from the table
+        cell.parentNode.removeChild(cell);
+
+        // Add the clicked word to the ordered words section
+        const orderedWordsSection = document.getElementById(
+          "ordered-words-section"
+        );
+        orderedWordsSection.textContent += word + " ";
+
+        // Check if there are no more cells left
+        if (table.querySelectorAll("td").length === 0) {
+          // Add event listener to the "Check Verse" button
+          if (!checkVerseBtnListenerAdded) {
+            checkVerseBtn.addEventListener("click", function () {
+              this.style.backgroundColor = "green";
+              checkVerse();
+            });
+            checkVerseBtnListenerAdded = true;
+          }
+        }
+      });
+
       const row = document.createElement("tr");
       row.appendChild(cell);
       table.appendChild(row);
     });
+
+    verseDisplayTable.appendChild(table);
   }
 
-});//Closes out the script
+  // Function to check if the verse order is correct
+  function checkVerse() {
+    const orderedWordsSection = document.getElementById(
+      "ordered-words-section"
+    );
+    const orderedWords = orderedWordsSection.textContent.trim().split(" ");
+    const originalWords = originalVerseText.trim().split(" ");
+
+    if (arraysEqual(orderedWords, originalWords)) {
+      alert("Congratulations! You got the verse right!");
+    } else {
+      alert("Sorry, the ordered words don't match the verse. Try again.");
+
+      orderedWordsSection.textContent = "";
+      practiceVerseBtn.style.backgroundColor = "";
+      checkVerseBtn.style.backgroundColor = "";
+      // Restart the process by calling scrambleAndDisplayVerse again
+      scrambleAndDisplayVerse(orderedWords);
+    }
+  }
+
+  // Function to check if two arrays are equal
+  function arraysEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+  }
+  //Close out the script
+});
