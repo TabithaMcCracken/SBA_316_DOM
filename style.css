@@ -1,6 +1,6 @@
 body {
     background-image: url(pexels-scott-webb-2824173.jpg);
-    font-family: "CopperPlate"; 
+    font-family: "Verdana"; 
     font-weight: bold;
 }
 
@@ -36,7 +36,7 @@ input, select, button {
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    font-family: "Copperplate";
+    font-family: "Verdana";
     font-weight: bold;
 }
 
