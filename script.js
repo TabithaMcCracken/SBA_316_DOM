@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () { //executes only afte
       console.log("Selected book not found.");
       alert("Please select a valid book from the dropdown.");
     }
-    this.style.backgroundColor = "green";
+    this.style.backgroundColor = "#8aa29e";
   });
 
   //Add event listenter to the practice button
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () { //executes only afte
       alert("Please select a verse first.");
       return;
     }
-    this.style.backgroundColor = "green";
+    this.style.backgroundColor = "#8aa29e";
     scrambleAndDisplayVerse(verseContent);
   });
 
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () { //executes only afte
           // Add event listener to the "Check Verse" button
           if (!checkVerseBtnListenerAdded) {
             checkVerseBtn.addEventListener("click", function () {
-              this.style.backgroundColor = "green";
+              this.style.backgroundColor = "#8aa29e";
               checkVerse();
             });
             checkVerseBtnListenerAdded = true;

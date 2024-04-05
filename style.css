@@ -1,11 +1,12 @@
 body {
-    background-color: #f4f4f4; /* Light gray background color */
-    font-family: Arial, sans-serif; /* Change font to Arial or fallback to sans-serif */
+    background-color: #f1edee; /* Light gray background color */
+    font-family: "Verdana", "Courier New", monospace; /* Change font to Arial or fallback to sans-serif */
 }
 
 header {
-    background-color: #333; /* Dark gray background color for header */
+    background-color: #DB5461; /* Dark gray background color for header */
     color: #fff; /* White text color for header */
+    font-family: "Papyrus", "Courier New", monospace;
     text-align: center;
     padding: 20px 0;
 }
@@ -37,14 +38,14 @@ input, select, button {
 }
 
 button {
-    background-color: #007bff; /* Blue button color */
+    background-color: #3d5467; /* Blue button color */
     color: #fff; /* White text color for button */
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue color on hover */
+    background-color: #8aa29e; /* Darker blue color on hover */
 }
 
 #verse-display, #ordered-words-section {
